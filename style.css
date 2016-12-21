@@ -67,3 +67,7 @@ text-align: right;
 
 color: #7b4672 !important;
 }
+.sk-pagination-navigation{
+  
+  display: none;
+  }

@@ -23,7 +23,7 @@ const SearchkitProvider = Searchkit.SearchkitProvider;
 const Searchbox = Searchkit.SearchBox;
 const SortingSelector = Searchkit.SortingSelector;
 const ActionBarRow = Searchkit.ActionBarRow;
-
+const InputFilter = Searchkit.InputFilter;
 
 const MovieHitsGridItem = Searchkit.MovieHitsGridItem;
 const ExampleHitsItem = Searchkit.ExampleHitsItem;
@@ -31,13 +31,30 @@ const ExampleHitsItem = Searchkit.ExampleHitsItem;
 const InitialLoader = Searchkit.InitialLoader;
 
 
+const PaginationSelect = Searchkit.PaginationSelect;
 
+const NoHitsDisplay = (props) => {
+
+   document.getElementsByClassName ('sk-pagination-navigation')[0].style.display="none";
+
+   const { query, suggestion, noResultsLabel} = props
+  return (
+   <div data-qa="no-hits" className={props.bemBlocks.container()} >
+      <div  className={props.bemBlocks.container("info")}>
+        no results for {query}!
+      </div>
+    </div>
+  );
+}
 
 
 class MovieHitsTable extends React.Component {
 
 
   render() {
+
+    
+
     const { hits } = this.props;
 
     const _hits = this.props.hits;
@@ -52,9 +69,13 @@ class MovieHitsTable extends React.Component {
 
         isQueryEmpty=true;
        document.getElementsByClassName ('sk-action-bar-row')[0].style.display="none";
+       document.getElementsByClassName ('sk-pagination-navigation')[0].style.display="none";
+     debugger
     }
     else{
       document.getElementsByClassName ('sk-action-bar-row')[0].style.display="block";
+      document.getElementsByClassName ('sk-pagination-navigation')[0].style.display="block";
+     debugger
     }
     var wikiNumber="";
     
@@ -150,7 +171,7 @@ const App = () => (
         <SearchBox
           autofocus={true}
           searchOnChange={true}
-          prefixQueryFields={["id^1", "type^2", "body", "title^10", "comments",  "comments.commentId^1", "casenumber^1", "comments.body^10","wikiTags.product^10"]} />
+          prefixQueryFields={["id^1", "type^2", "body", "title^10", "comments","wikiId",  "comments.commentId^1", "casenumber^1", "comments.body^10","wikiTags.product^10"]} />
       </TopBar>
       <LayoutBody>
         <SideBar>
@@ -162,12 +183,15 @@ const App = () => (
 
             size={10} />
 
+
               <RefinementListFilter
             field="wikiTags.product"
             title="Product"
              operator="AND"
              size={5}
             id="productTagsId" />
+
+
 
           <RefinementListFilter
             field="wikiTags.version"
@@ -185,6 +209,13 @@ const App = () => (
       
     
 
+            <InputFilter
+  id="Id_unique_search"
+  title="ID Search "
+  placeholder="Search by ID"
+  searchOnChange={true}
+  prefixQueryFields={["wikiId^1","id","caseNumber"]}
+  queryFields={["wikiId","id","caseNumber"]}/>
 
 
         </SideBar>
@@ -202,18 +233,21 @@ const App = () => (
             </ActionBarRow>
 
           </ActionBar>
-
+      
+      <Pagination className={"testClass"}  showNumbers={true} />
 
           <div>
 
-            <Hits hitsPerPage={20} highlightFields={["title", "body", "comments.body"]} 
+            <Hits hitsPerPage={10} highlightFields={["title", "body", "comments.body"]} 
             sourceFilter={["title", "url", "comments.body", "comments", "id","wikiSpaceKey", "wikiSpace", "comments.commentId", "type","casenumber","caseNumber"]}
 
               listComponent={MovieHitsTable}
               />
 
           </div>
-          <NoHits  />
+          
+          <NoHits component={NoHitsDisplay} />
+          
         </LayoutResults>
       </LayoutBody>
     </Layout>
