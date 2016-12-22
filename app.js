@@ -33,22 +33,11 @@ const InitialLoader = Searchkit.InitialLoader;
 
 const PaginationSelect = Searchkit.PaginationSelect;
 
-const NoHitsDisplay = (props) => {
-
-   document.getElementsByClassName ('sk-pagination-navigation')[0].style.display="none";
-
-   const { query, suggestion, noResultsLabel} = props
-  return (
-   <div data-qa="no-hits" className={props.bemBlocks.container()} >
-      <div  className={props.bemBlocks.container("info")}>
-        no results for {query}!
-      </div>
-    </div>
-  );
-}
 
 
 class MovieHitsTable extends React.Component {
+
+
 
 
   render() {
@@ -70,12 +59,12 @@ class MovieHitsTable extends React.Component {
         isQueryEmpty=true;
        document.getElementsByClassName ('sk-action-bar-row')[0].style.display="none";
        document.getElementsByClassName ('sk-pagination-navigation')[0].style.display="none";
-     debugger
+     
     }
     else{
       document.getElementsByClassName ('sk-action-bar-row')[0].style.display="block";
       document.getElementsByClassName ('sk-pagination-navigation')[0].style.display="block";
-     debugger
+     
     }
     var wikiNumber="";
     
@@ -246,7 +235,7 @@ const App = () => (
 
           </div>
           
-          <NoHits component={NoHitsDisplay} />
+          <NoHits  />
           
         </LayoutResults>
       </LayoutBody>
