@@ -111,6 +111,14 @@ padding-right: 15px;
   #left { float:right }
 #right { float:right }
 
+.helpLink{
+
+
+  text-align: right;
+  float:right ;
+color: #08c;
+}
+
 
 .sk-pagination-navigation { display:none !important;}
 
